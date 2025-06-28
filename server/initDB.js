@@ -1,3 +1,5 @@
+// initDB.js
+require('dotenv').config(); // 新增这一行来加载 .env 文件
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const Association = require('./models/Association');
