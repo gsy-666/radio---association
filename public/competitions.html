@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>竞赛活动 - 无线电爱好者协会</title>
+  <style>
+    :root {
+      --primary-color: #1a56a7;
+      --secondary-color: #0d3b7a;
+      --accent-color: #e6f2ff;
+      --text-color: #333;
+      --light-text: #fff;
+      --gray-text: #666;
+      --bg-color: #f5f5f5;
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 3D徽章样式 */
+    .association-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      perspective: 1000px;
+      z-index: 10;
+      animation: float 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0% {
+        transform: rotateY(15deg) translateY(0);
+      }
+
+      100% {
+        transform: rotateY(15deg) translateY(-5px);
+      }
+    }
+
+    .badge-3d {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .association-badge:hover .badge-3d {
+      transform: rotateY(0deg) scale(1.2);
+      animation: none;
+    }
+
+    .badge-front,
+    .badge-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(26, 86, 167, 0.6);
+    }
+
+    .badge-front {
+      background: linear-gradient(145deg, #1a56a7, #0d3b7a);
+      transform: translateZ(5px);
+      border: 3px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .badge-back {
+      background: linear-gradient(145deg, #0d3b7a, #1a56a7);
+      transform: rotateY(180deg) translateZ(5px);
+      border: 3px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .badge-image {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+    }
+
+    .badge-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center,
+          rgba(255, 255, 255, 0.8) 0%,
+          rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .association-badge:hover .badge-glow {
+      opacity: 0.6;
+    }
+
+    .nav {
+      background-color: var(--secondary-color);
+      padding: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    .competition-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .competition-card h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .competition-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      color: var(--gray-text);
+    }
+
+    .tracks {
+      margin-top: 1rem;
+    }
+
+    .track-item {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 2rem;
+    }
+
+    /* 回到顶部按钮样式 */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      z-index: 99;
+    }
+
+    #scrollTopBtn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .association-badge {
+        width: 60px;
+        height: 60px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo">无线电爱好者协会</div>
+      <div>挖掘潜质，就在无协</div>
+    </div>
+
+    <!-- 3D徽章 -->
+    <div class="association-badge">
+      <div class="badge-3d">
+        <div class="badge-front">
+          <img src="./image/白底会徽.png" alt="协会徽章" class="badge-image">
+        </div>
+        <div class="badge-back">
+          <img src="./image/白底会徽.png" alt="协会徽章背面" class="badge-image">
+        </div>
+      </div>
+      <div class="badge-glow"></div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="departments.html">部门介绍</a>
+    <a href="competitions.html" class="active">竞赛活动</a>
+    <a href="honors.html">荣誉成就</a>
+    <a href="trainings.html">培训教学</a>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">竞赛活动</h1>
+
+    <div id="competitions-container">
+      <!-- 竞赛卡片将通过JavaScript动态生成 -->
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 燕山大学无线电爱好者协会 | 联系我们: example@ysu.edu.cn</p>
+  </div>
+
+  <!-- 回到顶部按钮 -->
+  <button id="scrollTopBtn" title="回到顶部">↑</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchCompetitions();
+
+      // 设置当前导航项为active
+      document.querySelectorAll('.nav a').forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add('active');
+        }
+      });
+
+      // 回到顶部功能
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+          scrollTopBtn.style.display = 'block';
+        } else {
+          scrollTopBtn.style.display = 'none';
+        }
+      });
+    });
+
+    function fetchCompetitions() {
+      // 模拟从MongoDB获取竞赛数据
+      const competitions = [
+        {
+          name: "展望杯嵌入式大赛",
+          year: 2024,
+          date: "2024年5月8日",
+          participants: 102,
+          description: "为促进学校创新风气，激发燕山大学学生的学习和创新热情，提高创新能力，无线电爱好者协会为大家提供一个自我展示的平台。竞赛为团体报名，每队必须有三名成员才可参加比赛，其中参赛选手必须为燕山大学(校本部)在籍本科生。",
+          tracks: ["嵌入式方向", "软件方向"]
+        },
+        {
+          name: "DIY达人赛",
+          year: 2024,
+          date: "2024年6月13日",
+          participants: 62,
+          description: "为了促进学校创新风气，激发学生的学习热情，提高创新能力,给大家提供一个自我展示的平台。本次竞赛为团体或个人报名，每组不超过三人，每人至多可以参加一组，其中参赛选手必须为燕山大学(校本部)在籍本科生。",
+          tracks: ["软件开发创意可视化小游戏", "视觉识别", "嵌入式方向"]
+        },
+        {
+          name: "指尖风暴大赛",
+          year: 2023,
+          date: "2023年11月18日",
+          participants: 312,
+          description: "为了展现新时代燕大青年锐意进取的创新精神和蓬勃向上的进取意识，进一步丰富同学们的课余生活，增强同学们对C语言、PCB电路绘制的掌握水平和信息素养,现特举办以'指尖旋转风暴,实践展现风采'为主题的指尖风暴大赛,让同学们对编程、单片机等有更深的认识,激发大家的学习兴趣，提高大学生科技创新水平和实践能力。",
+          tracks: ["软件C语言编程赛道", "硬件EDA设计赛道", "大三大四项目赛道"]
+        }
+      ];
+
+      let html = '';
+      competitions.forEach(comp => {
+        let tracksHtml = '';
+        comp.tracks.forEach(track => {
+          tracksHtml += `<span class="track-item">${track}</span>`;
+        });
+
+        html += `
+                    <div class="competition-card">
+                        <h2>${comp.name}</h2>
+                        <div class="competition-meta">
+                            <span>时间: ${comp.date}</span>
+                            <span>参与人数: ${comp.participants}人</span>
+                        </div>
+                        <p>${comp.description}</p>
+                        <div class="tracks">
+                            <strong>赛道:</strong> ${tracksHtml}
+                        </div>
+                    </div>
+                `;
+      });
+
+      document.getElementById('competitions-container').innerHTML = html;
+    }
+  </script>
+</body>
+
+</html>

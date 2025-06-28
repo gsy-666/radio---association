@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>培训教学 - 无线电爱好者协会</title>
+  <meta name="description" content="无线电爱好者协会提供专业的电子技术培训，包括C语言编程、嵌入式开发、焊接技术等课程。">
+  <meta name="keywords" content="无线电,电子技术培训,C语言,嵌入式开发,焊接技术,SolidWorks">
+  <link rel="canonical" href="https://yourdomain.com/trainings.html">
+  <style>
+    :root {
+      --primary-color: #1a56a7;
+      --secondary-color: #0d3b7a;
+      --accent-color: #e6f2ff;
+      --text-color: #333;
+      --light-text: #fff;
+      --gray-text: #666;
+      --bg-color: #f5f5f5;
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav {
+      background-color: var(--secondary-color);
+      padding: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav a {
+      color: var(--light-text);
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    .nav a.active {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      font-size: 0.9rem;
+      color: var(--gray-text);
+    }
+
+    .breadcrumb a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      position: relative;
+    }
+
+    .page-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+    }
+
+    /* 培训卡片样式 */
+    .training-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      padding: 1.8rem 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .training-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .training-card h2 {
+      color: var(--primary-color);
+      margin: 0 0 1.2rem 0;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .training-card h2::before {
+      content: '📚';
+      margin-right: 0.8rem;
+      font-size: 1.4rem;
+    }
+
+    .training-card p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 0.8rem 0;
+      color: var(--text-color);
+    }
+
+    .training-meta {
+      display: flex;
+      justify-content: space-between;
+      margin: 1.2rem 0;
+      color: var(--gray-text);
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    .training-meta span {
+      display: flex;
+      align-items: center;
+    }
+
+    .training-meta span::before {
+      content: '⏱️';
+      margin-right: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .training-meta span:nth-child(2)::before {
+      content: '📍';
+    }
+
+    .training-meta span:nth-child(3)::before {
+      content: '👨‍🏫';
+    }
+
+    .training-details {
+      display: flex;
+      gap: 2.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .training-stats {
+      flex: 1.5;
+    }
+
+    .training-stat {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px dashed #eee;
+      font-size: 1rem;
+    }
+
+    .training-stat strong {
+      color: var(--primary-color);
+      font-size: 1.1rem;
+    }
+
+    .training-image {
+      flex: 1;
+      max-width: 42%;
+      background-color: var(--accent-color);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+      color: var(--primary-color);
+      font-weight: bold;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .training-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+      transition: var(--transition);
+    }
+
+    .training-image:hover img {
+      transform: scale(1.03);
+    }
+
+    .training-image::after {
+      content: '点击查看大图';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .training-image:hover::after {
+      opacity: 1;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      margin-right: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .skill-tag:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .timeline {
+      position: relative;
+      margin: 2rem 0;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1rem;
+      top: 0.5rem;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px var(--primary-color);
+      z-index: 1;
+    }
+
+    .timeline-date {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      font-size: 1.1rem;
+    }
+
+    .timeline-date::before {
+      content: '📅';
+      margin-right: 0.5rem;
+    }
+
+    .timeline-content {
+      background-color: white;
+      padding: 1.2rem;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+    }
+
+    .timeline-content:hover {
+      box-shadow: var(--hover-shadow);
+    }
+
+    .timeline-content h3 {
+      margin-top: 0;
+      color: var(--secondary-color);
+      font-size: 1.3rem;
+    }
+
+    .timeline-content p {
+      margin: 0.8rem 0 0;
+      font-size: 1.05rem;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      text-align: center;
+      padding: 2.5rem;
+      border-radius: 8px;
+      margin: 3rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .cta-section h3 {
+      margin-top: 0;
+      font-size: 1.6rem;
+    }
+
+    .cta-section p {
+      font-size: 1.1rem;
+      margin: 1rem 0;
+    }
+
+    .cta-button {
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      padding: 0.9rem 2.2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 1rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-button:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      z-index: 99;
+    }
+
+    #scrollTopBtn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    .footer {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      text-align: center;
+      padding: 1.8rem 0;
+      margin-top: 2rem;
+    }
+
+    .footer p {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+      }
+
+      .training-card {
+        padding: 1.5rem;
+      }
+
+      .training-details {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .training-image {
+        max-width: 100%;
+        min-height: 220px;
+      }
+
+      .timeline {
+        padding-left: 1rem;
+      }
+
+      .timeline-item {
+        padding-left: 1rem;
+      }
+
+      .training-meta {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .training-card,
+    .timeline-item,
+    .cta-section {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .timeline-item:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .timeline-item:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .timeline-item:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .timeline-item:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .timeline-item:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="logo">无线电爱好者协会</div>
+    <div>挖掘潜质，就在无协</div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="departments.html">部门介绍</a>
+    <a href="competitions.html">竞赛活动</a>
+    <a href="honors.html">荣誉成就</a>
+    <a href="trainings.html" class="active">培训教学</a>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">培训教学</h1>
+
+    <!-- 协会培养体系部分 -->
+    <div class="training-card">
+      <h2>协会培养体系</h2>
+      <p>无线电爱好者协会拥有一套完整的培养体系与成熟的教练团队，每年秋季学期公布培训安排与授课教师，提供广阔场地与专业设备。我们的培训课程涵盖从基础到进阶的各类电子技术知识，帮助学员全面提升技能水平。</p>
+      <div class="training-details">
+        <div class="training-stats">
+          <div class="training-stat">
+            <span>2024年度培训场次</span>
+            <strong>23场</strong>
+          </div>
+          <div class="training-stat">
+            <span>线下焊接实训</span>
+            <strong>4场</strong>
+          </div>
+          <div class="training-stat">
+            <span>2023-2024学年参与人数</span>
+            <strong>480人</strong>
+          </div>
+          <div class="training-stat">
+            <span>寒假SW教学参与</span>
+            <strong>312人</strong>
+          </div>
+          <div class="training-stat">
+            <span>认证讲师人数</span>
+            <strong>18人</strong>
+          </div>
+        </div>
+        <div class="training-image">
+          <img src="./image/traning.jpg" alt="培训现场照片" loading="lazy">
+        </div>
+      </div>
+      <div style="margin-top: 1.8rem;">
+        <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">学员可掌握技能</h3>
+        <div>
+          <span class="skill-tag">C语言编程</span>
+          <span class="skill-tag">嵌入式开发</span>
+          <span class="skill-tag">焊接技术</span>
+          <span class="skill-tag">SolidWorks建模</span>
+          <span class="skill-tag">PCB设计</span>
+          <span class="skill-tag">Linux操作系统</span>
+          <span class="skill-tag">Web开发</span>
+          <span class="skill-tag">人工智能基础</span>
+          <span class="skill-tag">信号处理</span>
+          <span class="skill-tag">射频电路设计</span>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="color: var(--primary-color); margin: 2.5rem 0 1.5rem;">培训时间线</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-date">2023年9月</div>
+        <div class="timeline-content">
+          <h3>秋季学期培训启动</h3>
+          <p>面向全校同学开设公开课，分享技术知识与实践经验，致力于培养和传播科学技术的热情。首期课程包括电子基础、C语言入门等内容。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2023年11月</div>
+        <div class="timeline-content">
+          <h3>"指尖风暴"新生赛培训</h3>
+          <p>为即将举办的"指尖风暴"大赛提供专项培训，内容包括C语言编程和单片机基础。特别增设了实战演练环节，帮助学员快速掌握比赛所需技能。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2024年1-2月</div>
+        <div class="timeline-content">
+          <h3>寒假SolidWorks教学</h3>
+          <p>利用腾讯会议举办线上SW教学，累计参与人数480人。课程内容从基础建模到装配体设计，配套提供大量练习素材和案例。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2024年3月</div>
+        <div class="timeline-content">
+          <h3>春季学期精英培训</h3>
+          <p>注重内部的精英化培训，力求打造一支高水平的科学技术团队，持续提升协会的综合实力。课程包括高级嵌入式开发、信号处理等进阶内容。</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-date">2024年5月</div>
+        <div class="timeline-content">
+          <h3>"展望杯"赛前培训</h3>
+          <p>为"展望杯"嵌入式大赛提供嵌入式系统开发和软件设计专项培训。特别邀请往届获奖选手分享经验，提高参赛作品质量。</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">近期培训计划</h2>
+    <div id="upcoming-trainings"></div>
+
+    <div class="cta-section">
+      <h3>想参加我们的培训吗？</h3>
+      <p>立即报名加入无线电爱好者协会，获取更多学习资源和实践机会！</p>
+      <button class="cta-button" onclick="window.location.href='registration.html'">立即报名</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 燕山大学无线电爱好者协会 | 联系我们: <a href="mailto:example@ysu.edu.cn">example@ysu.edu.cn</a></p>
+  </div>
+
+  <button id="scrollTopBtn" title="回到顶部">↑</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.nav a').forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add('active');
+        }
+      });
+
+      fetchUpcomingTrainings();
+
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    async function fetchUpcomingTrainings() {
+      try {
+        const mockTrainings = [
+          {
+            title: "嵌入式系统开发进阶",
+            date: "2024年6月15日 14:00-16:00",
+            location: "信息楼305实验室",
+            instructor: "张教授",
+            description: "深入讲解嵌入式系统开发的高级技巧，包括RTOS实时操作系统、低功耗设计和硬件加速等内容。",
+            target: "已完成基础嵌入式培训或具有同等水平的学员"
+          },
+          {
+            title: "PCB设计实战",
+            date: "2024年6月22日 10:00-12:00",
+            location: "工程训练中心202",
+            instructor: "李工程师",
+            description: "从原理图设计到PCB布局布线，手把手教你完成一个完整的电路板设计项目。",
+            target: "对电子设计感兴趣的所有同学，无需基础"
+          }
+        ];
+
+        let html = '';
+        mockTrainings.forEach(training => {
+          html += `
+            <div class="training-card" style="margin-top: 1.5rem;">
+              <h2>${training.title}</h2>
+              <div class="training-meta">
+                <span>时间: ${training.date}</span>
+                <span>地点: ${training.location}</span>
+                <span>讲师: ${training.instructor}</span>
+              </div>
+              <p>${training.description}</p>
+              <div style="margin-top: 0.8rem;">
+                <strong style="color: var(--primary-color);">适合人群:</strong> ${training.target}
+              </div>
+            </div>
+          `;
+        });
+
+        if (mockTrainings.length === 0) {
+          html = '<p style="font-size: 1.05rem;">暂无近期培训计划，请关注协会通知。</p>';
+        }
+
+        document.getElementById('upcoming-trainings').innerHTML += html;
+      } catch (error) {
+        console.error('Error fetching upcoming trainings:', error);
+        document.getElementById('upcoming-trainings').innerHTML += `
+          <p style="color: #d32f2f; font-size: 1.05rem;">无法加载培训计划，请稍后再试。</p>
+        `;
+      }
+    }
+
+    window.addEventListener('scroll', function () {
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+      if (window.scrollY > 300) {
+        scrollTopBtn.style.display = 'block';
+      } else {
+        scrollTopBtn.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('.training-image img').forEach(img => {
+      img.addEventListener('click', function () {
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.zIndex = '1000';
+        overlay.style.cursor = 'zoom-out';
+
+        const largeImg = document.createElement('img');
+        largeImg.src = this.src;
+        largeImg.style.maxWidth = '90%';
+        largeImg.style.maxHeight = '90%';
+        largeImg.style.objectFit = 'contain';
+
+        overlay.appendChild(largeImg);
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener('click', function () {
+          document.body.removeChild(overlay);
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>荣誉成就 - 无线电爱好者协会</title>
+  <style>
+    :root {
+      --primary-color: #1a56a7;
+      --secondary-color: #0d3b7a;
+      --accent-color: #e6f2ff;
+      --text-color: #333;
+      --light-text: #fff;
+      --gray-text: #666;
+      --bg-color: #f5f5f5;
+      --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--light-text);
+      text-align: center;
+      padding: 2rem 0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 3D徽章样式 */
+    .association-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      perspective: 1000px;
+      z-index: 10;
+      animation: float 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes float {
+      0% {
+        transform: rotateY(15deg) translateY(0);
+      }
+
+      100% {
+        transform: rotateY(15deg) translateY(-5px);
+      }
+    }
+
+    .badge-3d {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .association-badge:hover .badge-3d {
+      transform: rotateY(0deg) scale(1.2);
+      animation: none;
+    }
+
+    .badge-front,
+    .badge-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(26, 86, 167, 0.6);
+    }
+
+    .badge-front {
+      background: linear-gradient(145deg, #1a56a7, #0d3b7a);
+      transform: translateZ(5px);
+      border: 3px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .badge-back {
+      background: linear-gradient(145deg, #0d3b7a, #1a56a7);
+      transform: rotateY(180deg) translateZ(5px);
+      border: 3px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .badge-image {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+    }
+
+    .badge-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at center,
+          rgba(255, 255, 255, 0.8) 0%,
+          rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .association-badge:hover .badge-glow {
+      opacity: 0.6;
+    }
+
+    .nav {
+      background-color: var(--secondary-color);
+      padding: 1rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+
+    .nav a:hover {
+      background-color: var(--primary-color);
+    }
+
+    .nav a.active {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      position: relative;
+    }
+
+    .page-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: var(--primary-color);
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+    }
+
+    .honor-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--card-shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .honor-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background-color: var(--primary-color);
+    }
+
+    .honor-card h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .honor-card h2::before {
+      content: '🏆';
+      margin-right: 0.5rem;
+    }
+
+    .honor-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      color: var(--gray-text);
+    }
+
+    .rank-badge {
+      background-color: #e63946;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .honor-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+      background-color: white;
+      box-shadow: var(--card-shadow);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .honor-table th,
+    .honor-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .honor-table th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .honor-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .honor-table tr:hover {
+      background-color: var(--accent-color);
+    }
+
+    .footer {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+      margin-top: 2rem;
+    }
+
+    .highlight {
+      color: #e63946;
+      font-weight: bold;
+    }
+
+    .awards-section {
+      margin-top: 3rem;
+    }
+
+    .awards-section h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+
+    /* 回到顶部按钮样式 */
+    #scrollTopBtn {
+      display: none;
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      z-index: 99;
+    }
+
+    #scrollTopBtn:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .association-badge {
+        width: 60px;
+        height: 60px;
+        top: 10px;
+        right: 10px;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .honor-table {
+        font-size: 0.9rem;
+      }
+
+      .honor-table th,
+      .honor-table td {
+        padding: 0.6rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo">无线电爱好者协会</div>
+      <div>挖掘潜质，就在无协</div>
+    </div>
+
+    <!-- 3D徽章 -->
+    <div class="association-badge">
+      <div class="badge-3d">
+        <div class="badge-front">
+          <img src="./image/白底会徽.png" alt="协会徽章" class="badge-image">
+        </div>
+        <div class="badge-back">
+          <img src="./image/白底会徽.png" alt="协会徽章背面" class="badge-image">
+        </div>
+      </div>
+      <div class="badge-glow"></div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="departments.html">部门介绍</a>
+    <a href="competitions.html">竞赛活动</a>
+    <a href="honors.html" class="active">荣誉成就</a>
+    <a href="trainings.html">培训教学</a>
+  </div>
+
+  <div class="container">
+    <h1 class="page-title">荣誉成就</h1>
+
+    <div id="top-honors">
+      <!-- 顶级荣誉将通过JavaScript动态生成 -->
+    </div>
+
+    <div class="awards-section">
+      <h2>2022年河北省高校活力团支部TOP10</h2>
+      <p>无线电爱好者协会团支部成功入选<span class="highlight">2022年河北省高校活力团支部TOP10 - 改革味榜单</span>，位列第6名。</p>
+
+      <table class="honor-table">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>学校名称</th>
+            <th>支部名称</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>河北科技大学</td>
+            <td>化学与制药工程学院药学类专业2021级4班团支部</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>河北工业职业技术大学</td>
+            <td>计算机技术系2020级物联网应用技术班团支部</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>河北北方学院</td>
+            <td>中医学院中医学专业2020级本科1班团支部</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>石家庄信息工程职业学院</td>
+            <td>网络与通信工程系活力团支部</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>燕京理工学院</td>
+            <td>会计学院注会2001班团支部</td>
+          </tr>
+          <tr style="background-color: var(--accent-color);">
+            <td><strong>6</strong></td>
+            <td><strong>燕山大学</strong></td>
+            <td><strong>无线电爱好者协会团支部</strong></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>石家庄铁道大学</td>
+            <td>电21卓越团支部</td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>河北科技学院</td>
+            <td>2020级工程造价(本)1班团支部</td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td>河北体育学院</td>
+            <td>社会体育系2021级体育经济与管理1班团支部</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>河北经贸大学</td>
+            <td>会计学院2020级数字财会2班团支部</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="awards-section">
+      <h2>竞赛获奖情况</h2>
+      <p>社团内成员积极参加各类各项创新创业竞赛，如：</p>
+      <ul>
+        <li>大学生创新创业训练计划项目</li>
+        <li>蓝桥杯大赛</li>
+        <li>河北省创新创业年会</li>
+        <li>中国大学生计算机设计大赛</li>
+        <li>全国大学生电子设计竞赛</li>
+        <li>全国大学生电子商务"创新、创意及创业"挑战赛</li>
+        <li>蓝桥杯全国软件和信息技术专业人才大赛</li>
+        <li>全国大学生数学建模竞赛</li>
+        <li>全国大学生恩智浦杯智能车竞赛</li>
+        <li>全国大学生光电设计竞赛</li>
+      </ul>
+
+      <div class="honor-card">
+        <h2>近三年竞赛成果</h2>
+        <div style="display: flex; justify-content: space-around; text-align: center; margin: 1.5rem 0;">
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">13+</div>
+            <div>一类学科竞赛国家级奖项</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">30+</div>
+            <div>省级奖项</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">50+</div>
+            <div>二类学科竞赛奖项</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="awards-section">
+      <h2>协会成员个人荣誉</h2>
+      <div class="honor-card">
+        <h2>2023-2024学年协会负责人成就</h2>
+        <div style="display: flex; justify-content: space-around; text-align: center; margin: 1.5rem 0;">
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">7</div>
+            <div>国家级奖项</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">18</div>
+            <div>省级奖项</div>
+          </div>
+          <div>
+            <div style="font-size: 2rem; color: var(--primary-color); font-weight: bold;">30+</div>
+            <div>校级学科竞赛奖项</div>
+          </div>
+        </div>
+        <p>协会成员中1人获得<span class="highlight">本科生国家奖学金</span>，近<span class="highlight">53%</span>协会成员获得校级奖学金。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 燕山大学无线电爱好者协会 | 联系我们: example@ysu.edu.cn</p>
+  </div>
+
+  <!-- 回到顶部按钮 -->
+  <button id="scrollTopBtn" title="回到顶部">↑</button>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchTopHonors();
+
+      // 设置当前导航项为active
+      document.querySelectorAll('.nav a').forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add('active');
+        }
+      });
+
+      // 回到顶部功能
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+
+      window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+          scrollTopBtn.style.display = 'block';
+        } else {
+          scrollTopBtn.style.display = 'none';
+        }
+      });
+    });
+
+    async function fetchTopHonors() {
+      try {
+        const response = await fetch('/api/honors');
+        const honors = await response.json();
+
+        let html = '';
+        honors.forEach(honor => {
+          html += `
+                        <div class="honor-card">
+                            <h2>${honor.title}</h2>
+                            <div class="honor-meta">
+                                <span>年份: ${honor.year}</span>
+                                ${honor.rank ? `<span class="rank-badge">TOP ${honor.rank}</span>` : ''}
+                            </div>
+                            <p>${honor.description}</p>
+                        </div>
+                    `;
+        });
+
+        document.getElementById('top-honors').innerHTML = html;
+      } catch (error) {
+        console.error('Error fetching top honors:', error);
+        document.getElementById('top-honors').innerHTML = `
+                    <div class="honor-card">
+                        <p>无法加载荣誉数据，请稍后再试。</p>
+                    </div>
+                `;
+      }
+    }
+  </script>
+</body>
+
+</html>
