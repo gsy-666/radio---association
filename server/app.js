@@ -8,6 +8,7 @@ const departmentsRouter = require('./routes/departments');
 const registrationRouter = require('./routes/registration');
 const honorsRouter = require('./routes/honors'); // 引入荣誉路由
 const path = require('path');
+require('dotenv').config(); // 引入并配置dotenv
 
 // 连接数据库
 connectDB();
