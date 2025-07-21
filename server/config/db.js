@@ -3,10 +3,8 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/radio_association', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
+    const uri = process.env.MONGODB_URI;
+    await mongoose.connect(uri); // 移除 useNewUrlParser 和 useUnifiedTopology 选项
     console.log('MongoDB Connected...');
   } catch (err) {
     console.error('MongoDB Connection Error:', err.message);

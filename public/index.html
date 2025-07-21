@@ -202,6 +202,20 @@
       margin: 0.5rem 0;
     }
 
+    .video-container {
+      margin: 2rem 0;
+      box-shadow: var(--card-shadow);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
     .footer {
       background-color: var(--primary-color);
       color: white;
@@ -291,33 +305,46 @@
       <p>协会秉承"厚德、博学、求是"的燕大校训，发扬"艰苦奋斗、严谨治学、求实创新"的燕大精神，致力于培养和传播科学技术的热情。</p>
     </div>
 
+    <!-- 招新视频 -->
+    <div class="video-container">
+      <video width="640" height="360" controls>
+        <source src="./image/招新视频.mp4" type="video/mp4">
+
+      </video>
+    </div>
+
+    <!-- 原有内容保持不变 -->
     <div class="stats">
       <div class="stat-item">
         <div>成立年份</div>
         <div class="stat-value">1988</div>
       </div>
       <div class="stat-item">
-        <div>团员人数</div>
-        <div class="stat-value">33</div>
-      </div>
-      <div class="stat-item">
-        <div>星级评级</div>
+        <div>部门数量</div>
         <div class="stat-value">5</div>
       </div>
       <div class="stat-item">
-        <div>2024年活动</div>
-        <div class="stat-value">4</div>
+        <div>会员人数</div>
+        <div class="stat-value">200+</div>
+      </div>
+      <div class="stat-item">
+        <div>获奖数量</div>
+        <div class="stat-value">150+</div>
       </div>
     </div>
 
     <div class="card">
       <h2>近期活动</h2>
-      <div id="recentEvents"></div>
+      <div id="events-container">
+        <!-- 活动内容将通过JavaScript动态生成 -->
+      </div>
     </div>
 
     <div class="card">
       <h2>协会荣誉</h2>
-      <div id="associationHonors"></div>
+      <div id="honors-container">
+        <!-- 荣誉内容将通过JavaScript动态生成 -->
+      </div>
     </div>
   </div>
 
@@ -325,13 +352,19 @@
     <p>© 2025 燕山大学无线电爱好者协会 | 联系我们: example@ysu.edu.cn</p>
   </div>
 
+  <!-- 回到顶部按钮 -->
   <button id="scrollTopBtn" title="回到顶部">↑</button>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      fetchRecentEvents();
-      fetchHonors();
+      // 设置当前导航项为active
+      document.querySelectorAll('.nav a').forEach(link => {
+        if (link.href === window.location.href) {
+          link.classList.add('active');
+        }
+      });
 
+      // 回到顶部功能
       const scrollTopBtn = document.getElementById('scrollTopBtn');
       scrollTopBtn.addEventListener('click', () => {
         window.scrollTo({
@@ -347,43 +380,86 @@
           scrollTopBtn.style.display = 'none';
         }
       });
-    });
 
-    function fetchRecentEvents() {
-      const events = [
-        { name: "展望杯嵌入式大赛", date: "2024年5月8日", participants: 102 },
-        { name: "DIY达人赛", date: "2024年6月13日", participants: 62 },
-        { name: "指尖风暴大赛", date: "2023年11月18日", participants: 312 }
-      ];
+      // 动态生成近期活动内容
+      const eventsContainer = document.getElementById('events-container');
+      if (eventsContainer) {
+        const events = [
+          {
+            title: "展望杯嵌入式大赛",
+            date: "2025年9月",
+            description: "协会年度重要赛事，旨在激发学生对嵌入式系统的兴趣与创新能力"
+          },
+          {
+            title: "DIY达人赛",
+            date: "2025年11月",
+            description: "展示学生动手能力的平台，鼓励创新思维和实践能力"
+          },
+          {
+            title: "指尖风暴大赛",
+            date: "2025年12月",
+            description: "专注于电路设计与制作的竞赛，提升学生的专业技能"
+          }
+        ];
 
-      let html = '';
-      events.forEach(event => {
-        html += `
-          <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
-            <h3 style="margin: 0 0 0.5rem 0;">${event.name}</h3>
-            <p style="margin: 0.2rem 0;">时间: ${event.date}</p>
-            <p style="margin: 0.2rem 0;">参与人数: ${event.participants}人</p>
-          </div>
+        let eventsHTML = '';
+        events.forEach(event => {
+          eventsHTML += `
+            <div class="event-item" style="margin-bottom: 1rem; padding: 1rem; border: 1px solid #eee; border-radius: 4px;">
+              <h3 style="color: var(--primary-color); margin-top: 0;">${event.title}</h3>
+              <p style="margin: 0.5rem 0; color: var(--gray-text);"><strong>时间:</strong> ${event.date}</p>
+              <p style="margin: 0;">${event.description}</p>
+            </div>
+          `;
+        });
+
+        eventsContainer.innerHTML = eventsHTML;
+      }
+
+      // 动态生成荣誉内容
+      const honorsContainer = document.getElementById('honors-container');
+      if (honorsContainer) {
+        const honors = [
+          {
+            title: "河北省高校活力团支部TOP10",
+            year: "2024年",
+            description: "共青团河北省委颁发"
+          },
+          {
+            title: "燕山大学五星级社团",
+            year: "2024年",
+            description: "燕山大学学生社团联合会评选"
+          },
+          {
+            title: "全国大学生电子设计竞赛河北赛区优秀组织奖",
+            year: "2024年",
+            description: "全国大学生电子设计竞赛河北赛区组委会颁发"
+          }
+        ];
+
+        let honorsHTML = '<table style="width: 100%; border-collapse: collapse;">';
+        honorsHTML += `
+          <tr style="background-color: var(--accent-color);">
+            <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">荣誉名称</th>
+            <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">年份</th>
+            <th style="padding: 0.5rem; text-align: left; border: 1px solid #ddd;">颁发机构</th>
+          </tr>
         `;
-      });
 
-      document.getElementById('recentEvents').innerHTML = html;
-    }
+        honors.forEach(honor => {
+          honorsHTML += `
+            <tr>
+              <td style="padding: 0.5rem; border: 1px solid #ddd;">${honor.title}</td>
+              <td style="padding: 0.5rem; border: 1px solid #ddd;">${honor.year}</td>
+              <td style="padding: 0.5rem; border: 1px solid #ddd;">${honor.description}</td>
+            </tr>
+          `;
+        });
 
-    function fetchHonors() {
-      const honors = [
-        "2022年河北省高校活力团支部TOP10 - 改革味榜单",
-        "2024年度燕山大学五星级社团"
-      ];
-
-      let html = '<ul>';
-      honors.forEach(honor => {
-        html += `<li style="margin-bottom: 0.5rem;">${honor}</li>`;
-      });
-      html += '</ul>';
-
-      document.getElementById('associationHonors').innerHTML = html;
-    }
+        honorsHTML += '</table>';
+        honorsContainer.innerHTML = honorsHTML;
+      }
+    });
   </script>
 </body>
 
