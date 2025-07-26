@@ -390,58 +390,58 @@
       });
     });
 
-    function displayTrainingInfo(trainingName) {
-      // 定义培训数据
-      const trainings = {
-        "Tranging技术实战": {
-          name: "Tranging技术实战",
-          date: "2025年7月5日-7月15日",
-          time: "每天下午3:00-5:30",
-          trainer: "赵工程师",
-          location: "科技楼B座502实验室",
-          description: "深入学习UWB测距原理、算法实现与硬件调试，掌握ToF/TDoA测距技术在物联网中的应用。"
-        },
-        "单片机编程入门": {
-          name: "单片机编程入门",
-          date: "2025年8月1日-8月15日",
-          time: "每天上午9:00-11:30",
-          trainer: "李教授",
-          location: "电子楼301",
-          description: "从基础开始，系统学习51单片机编程，掌握GPIO、中断、定时器等模块的使用。"
-        },
-        "PCB设计进阶": {
-          name: "PCB设计进阶",
-          date: "2025年9月10日-9月30日",
-          time: "每周一、三、五晚上7:00-9:00",
-          trainer: "王工程师",
-          location: "信息楼403",
-          description: "学习Altium Designer高级应用，掌握多层PCB设计、信号完整性分析和高速电路设计。"
-        }
-      };
+    //   function displayTrainingInfo(trainingName) {
+    //     // 定义培训数据
+    //     const trainings = {
+    //       "Tranging技术实战": {
+    //         name: "Tranging技术实战",
+    //         date: "2025年7月5日-7月15日",
+    //         time: "每天下午3:00-5:30",
+    //         trainer: "赵工程师",
+    //         location: "科技楼B座502实验室",
+    //         description: "深入学习UWB测距原理、算法实现与硬件调试，掌握ToF/TDoA测距技术在物联网中的应用。"
+    //       },
+    //       "单片机编程入门": {
+    //         name: "单片机编程入门",
+    //         date: "2025年8月1日-8月15日",
+    //         time: "每天上午9:00-11:30",
+    //         trainer: "李教授",
+    //         location: "电子楼301",
+    //         description: "从基础开始，系统学习51单片机编程，掌握GPIO、中断、定时器等模块的使用。"
+    //       },
+    //       "PCB设计进阶": {
+    //         name: "PCB设计进阶",
+    //         date: "2025年9月10日-9月30日",
+    //         time: "每周一、三、五晚上7:00-9:00",
+    //         trainer: "王工程师",
+    //         location: "信息楼403",
+    //         description: "学习Altium Designer高级应用，掌握多层PCB设计、信号完整性分析和高速电路设计。"
+    //       }
+    //     };
 
-      // 查找匹配的培训信息
-      const training = trainings[trainingName];
+    //     // 查找匹配的培训信息
+    //     const training = trainings[trainingName];
 
-      if (training) {
-        const trainingInfoDiv = document.getElementById('training-info');
-        trainingInfoDiv.innerHTML = `
-                        <h3>您正在报名: ${training.name}</h3>
-                        <p><strong>培训日期:</strong> ${training.date}</p>
-                        <p><strong>上课时间:</strong> ${training.time}</p>
-                        <p><strong>培训地点:</strong> ${training.location}</p>
-                        <p><strong>主讲人:</strong> ${training.trainer}</p>
-                        <p><strong>培训简介:</strong> ${training.description}</p>
-                    `;
-      } else {
-        // 如果未找到匹配的培训信息，显示默认信息
-        const trainingInfoDiv = document.getElementById('training-info');
-        trainingInfoDiv.innerHTML = `
-                        <h3>培训报名</h3>
-                        <p>请填写以下信息完成报名</p>
-                    `;
-      }
-    }
-  </script>
+    //     if (training) {
+    //       const trainingInfoDiv = document.getElementById('training-info');
+    //       trainingInfoDiv.innerHTML = `
+    //                       <h3>您正在报名: ${training.name}</h3>
+    //                       <p><strong>培训日期:</strong> ${training.date}</p>
+    //                       <p><strong>上课时间:</strong> ${training.time}</p>
+    //                       <p><strong>培训地点:</strong> ${training.location}</p>
+    //                       <p><strong>主讲人:</strong> ${training.trainer}</p>
+    //                       <p><strong>培训简介:</strong> ${training.description}</p>
+    //                   `;
+    //     } else {
+    //       // 如果未找到匹配的培训信息，显示默认信息
+    //       const trainingInfoDiv = document.getElementById('training-info');
+    //       trainingInfoDiv.innerHTML = `
+    //                       <h3>培训报名</h3>
+    //                       <p>请填写以下信息完成报名</p>
+    //                   `;
+    //     }
+    //   }
+    // </script>
 </body>
 
 </html>
