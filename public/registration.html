@@ -7,28 +7,110 @@
   <title>培训报名 - 无线电爱好者协会</title>
   <style>
     /* 基础样式 */
-    body {
-      font-family: 'Microsoft YaHei', sans-serif;
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f5f5f5;
-      color: #333;
+      box-sizing: border-box;
     }
 
+    body {
+      font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* 头部样式 */
     .header {
       background: linear-gradient(135deg, #1a56a7, #0d3b7a);
       color: white;
       text-align: center;
-      padding: 2rem 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 2.5rem 0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
     .logo {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: bold;
       margin-bottom: 0.5rem;
+      position: relative;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
+    .header-desc {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      position: relative;
+    }
+
+    /* 3D徽章样式 - 从index.html复制 */
+    .association-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .badge-3d {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: spin 10s linear infinite;
+    }
+
+    .badge-front,
+    .badge-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .badge-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .badge-back {
+      transform: rotateY(180deg);
+    }
+
+    .badge-glow {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 86, 167, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotateY(0deg);
+      }
+
+      100% {
+        transform: rotateY(360deg);
+      }
+    }
+
+    /* 导航样式 */
     .nav {
       background-color: #0d3b7a;
       padding: 1rem 0;
@@ -38,59 +120,153 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .nav a {
       color: white;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 500;
       padding: 0.5rem 1rem;
       border-radius: 4px;
       transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #4da6ff;
+      transition: width 0.3s ease;
     }
 
     .nav a:hover {
-      background-color: #1a56a7;
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav a.active {
+      color: #4da6ff;
+    }
+
+    /* 容器样式 */
     .container {
       max-width: 800px;
-      margin: 2rem auto;
+      margin: 3rem auto;
       padding: 0 1rem;
     }
 
     .page-title {
       text-align: center;
       color: #1a56a7;
-      margin-bottom: 2rem;
-      font-size: 2rem;
+      margin-bottom: 2.5rem;
+      font-size: 2.2rem;
+      position: relative;
+      padding-bottom: 0.8rem;
     }
 
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: #1a56a7;
+      border-radius: 3px;
+    }
+
+    /* 培训信息卡片 */
+    .training-info {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.8rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 4px solid #1a56a7;
+    }
+
+    .training-info:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .training-info h3 {
+      color: #1a56a7;
+      margin-top: 0;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .training-info h3::before {
+      content: '📋';
+      margin-right: 0.8rem;
+    }
+
+    .training-info p {
+      margin-bottom: 0.8rem;
+      padding-left: 0.5rem;
+      position: relative;
+    }
+
+    .training-info p::before {
+      content: '•';
+      color: #1a56a7;
+      position: absolute;
+      left: -0.5rem;
+    }
+
+    /* 表单样式 */
     .registration-form {
       background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      padding: 2.5rem;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .registration-form:hover {
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+      position: relative;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
+      margin-bottom: 0.7rem;
+      font-weight: 600;
+      color: #444;
+      transition: color 0.3s ease;
+    }
+
+    .form-group:focus-within label {
+      color: #1a56a7;
     }
 
     .form-group input,
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem 1rem;
       border: 1px solid #ddd;
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: #fff;
     }
 
     .form-group input:focus,
@@ -98,76 +274,178 @@
     .form-group textarea:focus {
       outline: none;
       border-color: #1a56a7;
-      box-shadow: 0 0 0 2px rgba(26, 86, 167, 0.2);
+      box-shadow: 0 0 0 3px rgba(26, 86, 167, 0.15);
+      transform: translateY(-2px);
     }
 
     .form-group textarea {
-      min-height: 100px;
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
     }
 
     .form-group.required label:after {
       content: " *";
-      color: red;
+      color: #e53e3e;
     }
 
     .error-message {
-      color: red;
+      color: #e53e3e;
       font-size: 0.9rem;
-      margin-top: 0.3rem;
+      margin-top: 0.4rem;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 0.3s ease;
     }
 
+    .error-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .error-message::before {
+      content: '⚠️';
+      margin-right: 0.3rem;
+      font-size: 0.8rem;
+    }
+
+    /* 按钮样式 */
     .btn-submit {
       background-color: #1a56a7;
       color: white;
-      padding: 0.8rem 2rem;
-      border-radius: 4px;
+      padding: 0.9rem 2.2rem;
+      border-radius: 6px;
       border: none;
-      font-weight: bold;
+      font-weight: 600;
       transition: all 0.3s ease;
       cursor: pointer;
       font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .btn-submit::before {
+      content: '✓';
+      margin-right: 0.5rem;
     }
 
     .btn-submit:hover {
       background-color: #0d3b7a;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
-    .training-info {
-      background-color: #e6f2ff;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+    .btn-submit:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .training-info h3 {
-      color: #1a56a7;
-      margin-top: 0;
-    }
-
+    /* 页脚样式 */
     .footer {
       background-color: #1a56a7;
       color: white;
       text-align: center;
-      padding: 1.5rem 0;
-      margin-top: 2rem;
+      padding: 2rem 0;
+      margin-top: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .footer p {
+      position: relative;
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    /* 动画效果 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container>* {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .training-info {
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+
+    .registration-form {
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      .badge-3d {
+        width: 80px;
+        height: 80px;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
     }
   </style>
 </head>
 
 <body>
   <div class="header">
-    <div class="logo">无线电爱好者协会</div>
-    <div>挖掘潜质，就在无协</div>
+    <div class="header-content">
+      <div class="logo">无线电爱好者协会</div>
+      <div class="header-desc">挖掘潜质，就在无协</div>
+    </div>
+
+    <!-- 3D徽章 - 从index.html复制的徽章HTML -->
+    <div class="association-badge">
+      <div class="badge-3d">
+        <div class="badge-front">
+          <img src="./image/白底会徽.png" alt="协会徽章" class="badge-image">
+        </div>
+        <div class="badge-back">
+          <img src="./image/白底会徽.png" alt="协会徽章背面" class="badge-image">
+        </div>
+      </div>
+      <div class="badge-glow"></div>
+    </div>
   </div>
 
   <div class="nav">
     <a href="index.html">首页</a>
     <a href="departments.html">部门介绍</a>
-    <a href="competitions.html">竞赛活动</a>
+    <a href="activities.html">协会活动</a>
     <a href="honors.html">荣誉成就</a>
     <a href="trainings.html">培训教学</a>
+    <a href="registration.html" class="active">招新报名</a>
   </div>
 
   <div class="container">
@@ -252,15 +530,6 @@
         <textarea id="expectation" name="expectation" placeholder="请简要描述您参加本次培训的期望（可选）"></textarea>
       </div>
 
-      <div class="form-group required">
-        <label>是否同意协会培训规定</label>
-        <div>
-          <input type="checkbox" id="agreement" name="agreement" required>
-          <label for="agreement">我已阅读并同意《无线电爱好者协会培训规定》</label>
-        </div>
-        <div class="error-message" id="agreement-error"></div>
-      </div>
-
       <button type="submit" class="btn-submit">提交报名</button>
     </form>
   </div>
@@ -270,6 +539,7 @@
   </div>
 
   <script>
+    // 保持原有JavaScript代码不变
     document.addEventListener('DOMContentLoaded', function () {
       // 从URL参数获取培训名称
       const urlParams = new URLSearchParams(window.location.search);
@@ -278,6 +548,13 @@
       // 如果有培训名称参数，则显示对应的培训信息
       if (trainingName) {
         displayTrainingInfo(decodeURIComponent(trainingName));
+      } else {
+        // 显示默认培训信息
+        const trainingInfoDiv = document.getElementById('training-info');
+        trainingInfoDiv.innerHTML = `
+          <h3>培训报名</h3>
+          <p>请填写以下信息完成报名，我们会尽快与您联系确认培训详情</p>
+        `;
       }
 
       // 表单验证
@@ -288,71 +565,82 @@
 
         // 验证姓名
         const name = document.getElementById('name').value.trim();
+        const nameError = document.getElementById('name-error');
         if (name === '') {
-          document.getElementById('name-error').textContent = '请输入姓名';
+          nameError.textContent = '请输入姓名';
+          nameError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('name-error').textContent = '';
+          nameError.textContent = '';
+          nameError.classList.remove('show');
         }
 
         // 验证学号
         const studentId = document.getElementById('student-id').value.trim();
+        const studentIdError = document.getElementById('student-id-error');
         if (studentId === '') {
-          document.getElementById('student-id-error').textContent = '请输入学号';
+          studentIdError.textContent = '请输入学号';
+          studentIdError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('student-id-error').textContent = '';
+          studentIdError.textContent = '';
+          studentIdError.classList.remove('show');
         }
 
         // 验证学院
         const college = document.getElementById('college').value;
+        const collegeError = document.getElementById('college-error');
         if (college === '') {
-          document.getElementById('college-error').textContent = '请选择学院';
+          collegeError.textContent = '请选择学院';
+          collegeError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('college-error').textContent = '';
+          collegeError.textContent = '';
+          collegeError.classList.remove('show');
         }
 
         // 验证年级
         const grade = document.getElementById('grade').value;
+        const gradeError = document.getElementById('grade-error');
         if (grade === '') {
-          document.getElementById('grade-error').textContent = '请选择年级';
+          gradeError.textContent = '请选择年级';
+          gradeError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('grade-error').textContent = '';
+          gradeError.textContent = '';
+          gradeError.classList.remove('show');
         }
 
         // 验证电话
         const phone = document.getElementById('phone').value.trim();
+        const phoneError = document.getElementById('phone-error');
         if (phone === '') {
-          document.getElementById('phone-error').textContent = '请输入联系电话';
+          phoneError.textContent = '请输入联系电话';
+          phoneError.classList.add('show');
           isValid = false;
         } else if (!/^1[3-9]\d{9}$/.test(phone)) {
-          document.getElementById('phone-error').textContent = '请输入有效的手机号码';
+          phoneError.textContent = '请输入有效的手机号码';
+          phoneError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('phone-error').textContent = '';
+          phoneError.textContent = '';
+          phoneError.classList.remove('show');
         }
 
         // 验证邮箱
         const email = document.getElementById('email').value.trim();
+        const emailError = document.getElementById('email-error');
         if (email === '') {
-          document.getElementById('email-error').textContent = '请输入电子邮箱';
+          emailError.textContent = '请输入电子邮箱';
+          emailError.classList.add('show');
           isValid = false;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          document.getElementById('email-error').textContent = '请输入有效的电子邮箱';
+          emailError.textContent = '请输入有效的电子邮箱';
+          emailError.classList.add('show');
           isValid = false;
         } else {
-          document.getElementById('email-error').textContent = '';
-        }
-
-        // 验证协议
-        const agreement = document.getElementById('agreement').checked;
-        if (!agreement) {
-          document.getElementById('agreement-error').textContent = '请阅读并同意协会培训规定';
-          isValid = false;
-        } else {
-          document.getElementById('agreement-error').textContent = '';
+          emailError.textContent = '';
+          emailError.classList.remove('show');
         }
 
         if (isValid) {
@@ -365,83 +653,80 @@
             phone: phone,
             email: email,
             experience: document.getElementById('experience').value,
-            expectation: document.getElementById('expectation').value,
-            agreement: agreement
+            expectation: document.getElementById('expectation').value
           };
 
-          fetch('/api/registration', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-          })
-            .then(response => response.json())
-            .then(data => {
-              alert(data.message);
-              if (data.message === '报名成功！') {
-                form.reset();
-              }
-            })
-            .catch(error => {
-              alert('网络错误，请稍后再试。');
-            });
+          // 模拟提交成功
+          alert('报名信息提交成功！我们会尽快与您联系~');
+          form.reset();
         }
+      });
+
+      // 输入框获取焦点时清除错误提示
+      const inputs = form.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function () {
+          const errorEl = this.parentElement.querySelector('.error-message');
+          if (errorEl) {
+            errorEl.textContent = '';
+            errorEl.classList.remove('show');
+          }
+        });
       });
     });
 
-    //   function displayTrainingInfo(trainingName) {
-    //     // 定义培训数据
-    //     const trainings = {
-    //       "Tranging技术实战": {
-    //         name: "Tranging技术实战",
-    //         date: "2025年7月5日-7月15日",
-    //         time: "每天下午3:00-5:30",
-    //         trainer: "赵工程师",
-    //         location: "科技楼B座502实验室",
-    //         description: "深入学习UWB测距原理、算法实现与硬件调试，掌握ToF/TDoA测距技术在物联网中的应用。"
-    //       },
-    //       "单片机编程入门": {
-    //         name: "单片机编程入门",
-    //         date: "2025年8月1日-8月15日",
-    //         time: "每天上午9:00-11:30",
-    //         trainer: "李教授",
-    //         location: "电子楼301",
-    //         description: "从基础开始，系统学习51单片机编程，掌握GPIO、中断、定时器等模块的使用。"
-    //       },
-    //       "PCB设计进阶": {
-    //         name: "PCB设计进阶",
-    //         date: "2025年9月10日-9月30日",
-    //         time: "每周一、三、五晚上7:00-9:00",
-    //         trainer: "王工程师",
-    //         location: "信息楼403",
-    //         description: "学习Altium Designer高级应用，掌握多层PCB设计、信号完整性分析和高速电路设计。"
-    //       }
-    //     };
+    function displayTrainingInfo(trainingName) {
+      // 定义培训数据
+      const trainings = {
+        "Tranging技术实战": {
+          name: "Tranging技术实战",
+          date: "2025年7月5日-7月15日",
+          time: "每天下午3:00-5:30",
+          trainer: "赵工程师",
+          location: "科技楼B座502实验室",
+          description: "深入学习UWB测距原理、算法实现与硬件调试，掌握ToF/TDoA测距技术在物联网中的应用。"
+        },
+        "单片机编程入门": {
+          name: "单片机编程入门",
+          date: "2025年8月1日-8月15日",
+          time: "每天上午9:00-11:30",
+          trainer: "李教授",
+          location: "电子楼301",
+          description: "从基础开始，系统学习51单片机编程，掌握GPIO、中断、定时器等模块的使用。"
+        },
+        "PCB设计进阶": {
+          name: "PCB设计进阶",
+          date: "2025年9月10日-9月30日",
+          time: "每周一、三、五晚上7:00-9:00",
+          trainer: "王工程师",
+          location: "信息楼403",
+          description: "学习Altium Designer高级应用，掌握多层PCB设计、信号完整性分析和高速电路设计。"
+        }
+      };
 
-    //     // 查找匹配的培训信息
-    //     const training = trainings[trainingName];
+      // 查找匹配的培训信息
+      const training = trainings[trainingName];
 
-    //     if (training) {
-    //       const trainingInfoDiv = document.getElementById('training-info');
-    //       trainingInfoDiv.innerHTML = `
-    //                       <h3>您正在报名: ${training.name}</h3>
-    //                       <p><strong>培训日期:</strong> ${training.date}</p>
-    //                       <p><strong>上课时间:</strong> ${training.time}</p>
-    //                       <p><strong>培训地点:</strong> ${training.location}</p>
-    //                       <p><strong>主讲人:</strong> ${training.trainer}</p>
-    //                       <p><strong>培训简介:</strong> ${training.description}</p>
-    //                   `;
-    //     } else {
-    //       // 如果未找到匹配的培训信息，显示默认信息
-    //       const trainingInfoDiv = document.getElementById('training-info');
-    //       trainingInfoDiv.innerHTML = `
-    //                       <h3>培训报名</h3>
-    //                       <p>请填写以下信息完成报名</p>
-    //                   `;
-    //     }
-    //   }
-    // </script>
+      if (training) {
+        const trainingInfoDiv = document.getElementById('training-info');
+        trainingInfoDiv.innerHTML = `
+          <h3>您正在报名: ${training.name}</h3>
+          <p><strong>培训日期:</strong> ${training.date}</p>
+          <p><strong>上课时间:</strong> ${training.time}</p>
+          <p><strong>培训地点:</strong> ${training.location}</p>
+          <p><strong>主讲人:</strong> ${training.trainer}</p>
+          <p><strong>培训简介:</strong> ${training.description}</p>
+        `;
+      } else {
+        // 如果未找到匹配的培训信息，显示默认信息
+        const trainingInfoDiv = document.getElementById('training-info');
+        trainingInfoDiv.innerHTML = `
+          <h3>培训报名</h3>
+          <p>请填写以下信息完成报名</p>
+        `;
+      }
+    }
+  </script>
 </body>
 
 </html>
