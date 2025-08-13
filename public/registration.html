@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>培训报名 - 无线电爱好者协会</title>
+  <title>报名 - 无线电爱好者协会</title>
   <style>
     /* 基础样式 */
     * {
@@ -55,7 +55,7 @@
       position: relative;
     }
 
-    /* 3D徽章样式 - 从index.html复制 */
+    /* 3D徽章样式 */
     .association-badge {
       position: absolute;
       top: 20px;
@@ -184,8 +184,8 @@
       border-radius: 3px;
     }
 
-    /* 培训信息卡片 */
-    .training-info {
+    /* 说明信息卡片 */
+    .info-card {
       background-color: white;
       border-radius: 10px;
       padding: 1.8rem;
@@ -195,12 +195,12 @@
       border-top: 4px solid #1a56a7;
     }
 
-    .training-info:hover {
+    .info-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
-    .training-info h3 {
+    .info-card h3 {
       color: #1a56a7;
       margin-top: 0;
       margin-bottom: 1.2rem;
@@ -209,18 +209,18 @@
       align-items: center;
     }
 
-    .training-info h3::before {
+    .info-card h3::before {
       content: '📋';
       margin-right: 0.8rem;
     }
 
-    .training-info p {
+    .info-card p {
       margin-bottom: 0.8rem;
       padding-left: 0.5rem;
       position: relative;
     }
 
-    .training-info p::before {
+    .info-card p::before {
       content: '•';
       color: #1a56a7;
       position: absolute;
@@ -388,7 +388,7 @@
       animation: fadeIn 0.6s ease forwards;
     }
 
-    .training-info {
+    .info-card {
       animation-delay: 0.1s;
       opacity: 0;
     }
@@ -425,7 +425,7 @@
       <div class="header-desc">挖掘潜质，就在无协</div>
     </div>
 
-    <!-- 3D徽章 - 从index.html复制的徽章HTML -->
+    <!-- 3D徽章 -->
     <div class="association-badge">
       <div class="badge-3d">
         <div class="badge-front">
@@ -449,10 +449,12 @@
   </div>
 
   <div class="container">
-    <h1 class="page-title">培训报名</h1>
+    <h1 class="page-title">报名信息</h1>
 
-    <div id="training-info" class="training-info">
-      <!-- 培训信息将通过JavaScript动态生成 -->
+    <div class="info-card">
+      <h3>报名须知</h3>
+      <p>请填写以下信息完成报名，我们会尽快与您联系确认相关事宜</p>
+      <p>标有 <span style="color: #e53e3e;">*</span> 的为必填项，请确保信息真实有效</p>
     </div>
 
     <form id="registration-form" class="registration-form">
@@ -526,8 +528,8 @@
       </div>
 
       <div class="form-group">
-        <label for="expectation">学习期望</label>
-        <textarea id="expectation" name="expectation" placeholder="请简要描述您参加本次培训的期望（可选）"></textarea>
+        <label for="expectation">加入期望</label>
+        <textarea id="expectation" name="expectation" placeholder="请简要描述您加入协会的期望（可选）"></textarea>
       </div>
 
       <button type="submit" class="btn-submit">提交报名</button>
@@ -539,24 +541,7 @@
   </div>
 
   <script>
-    // 保持原有JavaScript代码不变
     document.addEventListener('DOMContentLoaded', function () {
-      // 从URL参数获取培训名称
-      const urlParams = new URLSearchParams(window.location.search);
-      const trainingName = urlParams.get('training');
-
-      // 如果有培训名称参数，则显示对应的培训信息
-      if (trainingName) {
-        displayTrainingInfo(decodeURIComponent(trainingName));
-      } else {
-        // 显示默认培训信息
-        const trainingInfoDiv = document.getElementById('training-info');
-        trainingInfoDiv.innerHTML = `
-          <h3>培训报名</h3>
-          <p>请填写以下信息完成报名，我们会尽快与您联系确认培训详情</p>
-        `;
-      }
-
       // 表单验证
       const form = document.getElementById('registration-form');
       form.addEventListener('submit', function (e) {
@@ -644,7 +629,7 @@
         }
 
         if (isValid) {
-          // 将表单数据发送到后端
+          // 收集表单数据
           const formData = {
             name: name,
             studentId: studentId,
@@ -656,9 +641,28 @@
             expectation: document.getElementById('expectation').value
           };
 
-          // 模拟提交成功
-          alert('报名信息提交成功！我们会尽快与您联系~');
-          form.reset();
+          // 发送数据到后端
+          fetch('/api/registration', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          })
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              }
+              throw new Error('网络响应不正常');
+            })
+            .then(data => {
+              alert('报名信息提交成功！我们会尽快与您联系~');
+              form.reset();
+            })
+            .catch(error => {
+              console.error('提交失败:', error);
+              alert('报名失败，请稍后再试。');
+            });
         }
       });
 
@@ -674,58 +678,6 @@
         });
       });
     });
-
-    function displayTrainingInfo(trainingName) {
-      // 定义培训数据
-      const trainings = {
-        "Tranging技术实战": {
-          name: "Tranging技术实战",
-          date: "2025年7月5日-7月15日",
-          time: "每天下午3:00-5:30",
-          trainer: "赵工程师",
-          location: "科技楼B座502实验室",
-          description: "深入学习UWB测距原理、算法实现与硬件调试，掌握ToF/TDoA测距技术在物联网中的应用。"
-        },
-        "单片机编程入门": {
-          name: "单片机编程入门",
-          date: "2025年8月1日-8月15日",
-          time: "每天上午9:00-11:30",
-          trainer: "李教授",
-          location: "电子楼301",
-          description: "从基础开始，系统学习51单片机编程，掌握GPIO、中断、定时器等模块的使用。"
-        },
-        "PCB设计进阶": {
-          name: "PCB设计进阶",
-          date: "2025年9月10日-9月30日",
-          time: "每周一、三、五晚上7:00-9:00",
-          trainer: "王工程师",
-          location: "信息楼403",
-          description: "学习Altium Designer高级应用，掌握多层PCB设计、信号完整性分析和高速电路设计。"
-        }
-      };
-
-      // 查找匹配的培训信息
-      const training = trainings[trainingName];
-
-      if (training) {
-        const trainingInfoDiv = document.getElementById('training-info');
-        trainingInfoDiv.innerHTML = `
-          <h3>您正在报名: ${training.name}</h3>
-          <p><strong>培训日期:</strong> ${training.date}</p>
-          <p><strong>上课时间:</strong> ${training.time}</p>
-          <p><strong>培训地点:</strong> ${training.location}</p>
-          <p><strong>主讲人:</strong> ${training.trainer}</p>
-          <p><strong>培训简介:</strong> ${training.description}</p>
-        `;
-      } else {
-        // 如果未找到匹配的培训信息，显示默认信息
-        const trainingInfoDiv = document.getElementById('training-info');
-        trainingInfoDiv.innerHTML = `
-          <h3>培训报名</h3>
-          <p>请填写以下信息完成报名</p>
-        `;
-      }
-    }
   </script>
 </body>
 

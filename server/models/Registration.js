@@ -1,3 +1,4 @@
+// 修改 models/Registration.js
 const mongoose = require('mongoose');
 
 const RegistrationSchema = new mongoose.Schema({
@@ -9,7 +10,6 @@ const RegistrationSchema = new mongoose.Schema({
   email: { type: String, required: true },
   experience: { type: String },
   expectation: { type: String },
-  agreement: { type: Boolean, required: true }
 });
 
 module.exports = mongoose.model('Registration', RegistrationSchema);
