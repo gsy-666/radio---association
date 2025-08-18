@@ -25,6 +25,7 @@
       padding: 0;
       background-color: var(--bg-color);
       color: var(--text-color);
+      line-height: 1.6;
     }
 
     /* 头部样式统一 */
@@ -48,6 +49,11 @@
       background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
     .logo {
       font-size: 2.8rem;
       font-weight: bold;
@@ -56,7 +62,14 @@
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* 改进后的徽章样式 - 随页面滚动 */
+    .header-subtitle {
+      /* 与honors页面保持一致的样式 */
+      margin: 0;
+      position: relative;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 3D徽章样式 */
     .association-badge {
       position: absolute;
       top: 20px;
@@ -111,15 +124,7 @@
       }
     }
 
-    /* 移动端适配 */
-    @media (max-width: 768px) {
-      .badge-3d {
-        width: 80px;
-        height: 80px;
-      }
-    }
-
-
+    /* 导航样式 */
     .nav {
       background-color: var(--secondary-color);
       padding: 1rem 0;
@@ -142,6 +147,11 @@
 
     .nav a:hover {
       background-color: var(--primary-color);
+    }
+
+    .nav a.active {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
     .container {
@@ -204,7 +214,7 @@
       display: block;
     }
 
-    /* 与trainings.html统一的footer样式 */
+    /* 页脚样式 */
     .footer {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
@@ -241,6 +251,7 @@
       text-decoration: underline;
     }
 
+    /* 回到顶部按钮 */
     #scrollTopBtn {
       display: none;
       position: fixed;
@@ -264,6 +275,7 @@
       transform: translateY(-3px);
     }
 
+    /* 移动端适配 */
     @media (max-width: 768px) {
       .badge-3d {
         width: 80px;
@@ -273,6 +285,7 @@
       .logo {
         font-size: 2rem;
       }
+
 
       .nav {
         flex-direction: column;
@@ -287,10 +300,10 @@
   <div class="header">
     <div class="header-content">
       <div class="logo">无线电爱好者协会</div>
-      <div>挖掘潜质，就在无协</div>
+      <div class="header-subtitle">挖掘潜质，就在无协</div>
     </div>
 
-    <!-- 3D徽章 - 与培训页面样式一致 -->
+    <!-- 3D徽章 -->
     <div class="association-badge">
       <div class="badge-3d">
         <div class="badge-front">
@@ -305,7 +318,7 @@
   </div>
 
   <div class="nav">
-    <a href="index.html">首页</a>
+    <a href="index.html" class="active">首页</a>
     <a href="departments.html">部门介绍</a>
     <a href="activities.html">协会活动</a>
     <a href="honors.html">荣誉成就</a>
@@ -332,7 +345,6 @@
       </div>
     </div>
 
-    <!-- 原有内容保持不变 -->
     <div class="stats">
       <div class="stat-item">
         <div>成立年份</div>

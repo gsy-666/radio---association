@@ -361,6 +361,28 @@
       font-size: 1.05rem;
     }
 
+    .course-schedule {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .course-schedule th,
+    .course-schedule td {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .course-schedule th {
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+    }
+
+    .course-schedule tr:hover {
+      background-color: #f9f9f9;
+    }
+
     .cta-section {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
@@ -701,10 +723,68 @@
         </div>
       </div>
       <div class="timeline-item">
-        <div class="timeline-date">2025年</div>
+        <div class="timeline-date">2025年10月-12月</div>
         <div class="timeline-content">
-          <h3>每周培训</h3>
-          <p>待定：</p>
+          <h3>每周培训课程安排</h3>
+          <p>系统的培训课程将从10月开始，每周进行一次，具体安排如下：</p>
+          <table class="course-schedule">
+            <thead>
+              <tr>
+                <th>周次</th>
+                <th>教学内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>第1周</td>
+                <td>无线电基础与应用初探</td>
+              </tr>
+              <tr>
+                <td>第2周</td>
+                <td>C语言环境配置与基础复习（数组前）</td>
+              </tr>
+              <tr>
+                <td>第3周</td>
+                <td>C语言数组进阶、函数与指针基础（结合嵌入式案例）</td>
+              </tr>
+              <tr>
+                <td>第4周</td>
+                <td>C语言结构体与指针进阶（结合嵌入式案例）</td>
+              </tr>
+              <tr>
+                <td>第5周</td>
+                <td>嵌入式GPIO（IN/OUT）、按键、点灯（CubeMX配置）</td>
+              </tr>
+              <tr>
+                <td>第6周</td>
+                <td>嵌入式外部中断、按键中断</td>
+              </tr>
+              <tr>
+                <td>第7周</td>
+                <td>嵌入式定时器（中断、PWM）+ USART基础（CubeMX配置）</td>
+              </tr>
+              <tr>
+                <td>第8周</td>
+                <td>嘉立创EDA基本使用（绘制方法、搜索器件、文件配置）</td>
+              </tr>
+              <tr>
+                <td>第9周</td>
+                <td>LDO电路、BUCK电路讲解与绘制</td>
+              </tr>
+              <tr>
+                <td>第10周</td>
+                <td>绘制原理图与PCB（初步完成）</td>
+              </tr>
+              <tr>
+                <td>第11周</td>
+                <td>SW绘图基础与界面操作</td>
+              </tr>
+              <tr>
+                <td>第12周</td>
+                <td>结构设计实操</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="timeline-item">
@@ -716,7 +796,7 @@
       </div>
     </div>
 
-    <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">往期培训计划</h2>
+    <h2 style="color: var(--primary-color); margin-bottom: 1.5rem;">往期培训</h2>
     <div id="upcoming-trainings"></div>
 
     <div class="cta-section">
