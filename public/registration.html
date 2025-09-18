@@ -446,6 +446,7 @@
     <a href="honors.html">荣誉成就</a>
     <a href="trainings.html">培训教学</a>
     <a href="registration.html" class="active">招新报名</a>
+    <a href="admin-login.html">管理员</a>
   </div>
 
   <div class="container">
@@ -522,9 +523,10 @@
         <div class="error-message" id="email-error"></div>
       </div>
 
-      <div class="form-group">
-        <label for="experience">相关经验</label>
-        <textarea id="experience" name="experience" placeholder="请简要描述您的相关学习或实践经验（可选）"></textarea>
+      <div class="form-group required">
+        <label for="experience">自我介绍</label>
+        <textarea id="experience" name="experience" placeholder="简单做一下自我介绍" required></textarea>
+        <div class="error-message" id="experience-error"></div>
       </div>
 
       <div class="form-group">
@@ -626,6 +628,22 @@
         } else {
           emailError.textContent = '';
           emailError.classList.remove('show');
+        }
+
+        // 验证自我介绍
+        const experience = document.getElementById('experience').value.trim();
+        const experienceError = document.getElementById('experience-error');
+        if (experience === '') {
+          experienceError.textContent = '请填写自我介绍';
+          experienceError.classList.add('show');
+          isValid = false;
+        } else if (experience.length < 10) {
+          experienceError.textContent = '自我介绍至少需要10个字符';
+          experienceError.classList.add('show');
+          isValid = false;
+        } else {
+          experienceError.textContent = '';
+          experienceError.classList.remove('show');
         }
 
         if (isValid) {
