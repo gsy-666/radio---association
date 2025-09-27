@@ -552,6 +552,10 @@
         e.preventDefault();
         let isValid = true;
 
+        // 防止重复点击：禁用提交按钮
+        const submitBtn = form.querySelector('.btn-submit');
+        submitBtn.disabled = true;
+
         // 验证姓名
         const name = document.getElementById('name').value.trim();
         const nameError = document.getElementById('name-error');
@@ -678,11 +682,15 @@
             .then(data => {
               alert('报名信息提交成功！我们会尽快与您联系~');
               form.reset();
+              submitBtn.disabled = false; // 恢复按钮
             })
             .catch(error => {
               console.error('提交失败:', error);
               alert('报名失败，请稍后再试。');
+              submitBtn.disabled = false; // 恢复按钮
             });
+        } else {
+          submitBtn.disabled = false; // 校验失败也恢复按钮
         }
       });
 
