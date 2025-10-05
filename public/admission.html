@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>录取查询 - 无线电爱好者协会</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Microsoft YaHei', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f0f4ff, #f8fbff);
+      color: #1f2d3d;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a56a7, #0d3b7a);
+      color: #fff;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    header .heading {
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.6rem;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      background: rgba(13, 59, 122, 0.9);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0.85rem 1rem;
+      box-shadow: 0 12px 30px rgba(13, 59, 122, 0.18);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      position: relative;
+      padding: 0.25rem 0.4rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -0.35rem;
+      width: 100%;
+      height: 2px;
+      background: #4da6ff;
+      opacity: 0;
+      transform: scaleX(0.5);
+      transform-origin: center;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: #4da6ff;
+    }
+
+    nav a:hover::after,
+    nav a:focus-visible::after,
+    nav a.active::after {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    nav a.active {
+      color: #4da6ff;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1.2rem 4rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 25px 60px rgba(26, 86, 167, 0.18);
+      padding: 3rem 2.75rem;
+      max-width: 720px;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at center, rgba(77, 166, 255, 0.18), transparent 70%);
+      top: -80px;
+      right: -60px;
+      z-index: 0;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      background: radial-gradient(circle at center, rgba(26, 86, 167, 0.12), transparent 70%);
+      bottom: -70px;
+      left: -40px;
+      z-index: 0;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .card-header h2 {
+      font-size: 2rem;
+      color: #1a56a7;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-header p {
+      color: #4b5874;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 1.8rem 0 2.6rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: linear-gradient(135deg, rgba(26, 86, 167, 0.12), rgba(77, 166, 255, 0.12));
+      border-radius: 14px;
+      padding: 1rem 1.6rem;
+      min-width: 160px;
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(77, 166, 255, 0.15);
+    }
+
+    .stat-item span {
+      display: block;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0d3b7a;
+    }
+
+    .stat-item small {
+      display: block;
+      margin-top: 0.4rem;
+      color: #51617a;
+      letter-spacing: 0.4px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    label {
+      font-weight: 600;
+      color: #1a365d;
+      letter-spacing: 0.3px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    input[type="text"] {
+      flex: 1 1 240px;
+      padding: 0.9rem 1.1rem;
+      border-radius: 10px;
+      border: 1.5px solid rgba(26, 86, 167, 0.25);
+      font-size: 1.05rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #1a56a7;
+      box-shadow: 0 0 0 4px rgba(77, 166, 255, 0.2);
+      background: #fff;
+    }
+
+    button {
+      background: linear-gradient(135deg, #1a56a7, #4da6ff);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 2.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 15px 35px rgba(26, 86, 167, 0.25);
+    }
+
+    button:hover,
+    button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(26, 86, 167, 0.32);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 12px 26px rgba(26, 86, 167, 0.25);
+    }
+
+    .message {
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      min-height: 78px;
+      transition: all 0.3s ease;
+      border: 1.5px solid transparent;
+      display: none;
+      align-items: flex-start;
+      gap: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .message .icon {
+      font-size: 1.6rem;
+    }
+
+    .message strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .message.success {
+      background: linear-gradient(135deg, rgba(54, 204, 140, 0.12), rgba(54, 204, 140, 0.05));
+      border-color: rgba(54, 204, 140, 0.35);
+      color: #185f3d;
+    }
+
+    .message.error {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.12), rgba(255, 107, 107, 0.05));
+      border-color: rgba(255, 107, 107, 0.35);
+      color: #7c1f1f;
+    }
+
+    .message.info {
+      background: linear-gradient(135deg, rgba(26, 86, 167, 0.08), rgba(77, 166, 255, 0.05));
+      border-color: rgba(26, 86, 167, 0.35);
+      color: #123c6e;
+    }
+
+    .message.show {
+      display: flex;
+    }
+
+    .history {
+      margin-top: 2.4rem;
+      border-top: 1px dashed rgba(26, 86, 167, 0.2);
+      padding-top: 1.8rem;
+    }
+
+    .history h3 {
+      font-size: 1.15rem;
+      color: #1a56a7;
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .history ul {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .history li {
+      background: rgba(26, 86, 167, 0.07);
+      padding: 0.85rem 1.1rem;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #24344d;
+      letter-spacing: 0.2px;
+    }
+
+    .history li span.name {
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    footer {
+      background: #0d3b7a;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      padding: 1.8rem 1rem;
+      margin-top: auto;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+    }
+
+    footer a {
+      color: #4da6ff;
+      text-decoration: none;
+      margin-left: 0.4rem;
+    }
+
+    @media (max-width: 640px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .card {
+        padding: 2.2rem 1.6rem;
+        border-radius: 16px;
+      }
+
+      .stats {
+        gap: 1rem;
+      }
+
+      .stat-item {
+        padding: 0.85rem 1.2rem;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .history li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="heading">
+      <h1>无线电爱好者协会录取查询</h1>
+      <p>输入你的学号，快速确认录取结果。如需帮助，请联系协会招新负责人。</p>
+    </div>
+  </header>
+  <nav>
+    <a href="index.html">首页</a>
+    <a href="activities.html">协会活动</a>
+    <a href="trainings.html">培训计划</a>
+    <a href="registration.html">在线报名</a>
+    <a href="admission.html" class="active">录取查询</a>
+  </nav>
+  <main>
+    <section class="card">
+      <div class="card-content">
+        <div class="card-header">
+          <h2>录取结果查询</h2>
+          <p>
+            本界录取名单已经发布。请输入报名时填写的学号进行查询。我们将根据学号匹配录取名单并显示对应信息。
+          </p>
+        </div>
+        <div class="stats" id="summary">
+          <div class="stat-item">
+            <span id="total-admitted">--</span>
+            <small>本次录取人数</small>
+          </div>
+          <div class="stat-item">
+            <span id="last-updated">--</span>
+            <small>数据更新时间</small>
+          </div>
+        </div>
+        <form id="lookup-form" autocomplete="off">
+          <div>
+            <label for="student-id">学号</label>
+            <div class="input-group">
+              <input id="student-id" name="student-id" type="text" inputmode="numeric" pattern="[0-9]{6,}"
+                maxlength="20" placeholder="请输入学号，例如 202511040394" aria-required="true" required />
+              <button type="submit" aria-label="查询录取结果">
+                <span>查询</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="message info" id="status-message" role="status" aria-live="polite">
+          <div class="icon" aria-hidden="true">ℹ️</div>
+          <div>
+            <strong>提示</strong>
+            <span>录取名单加载中，请稍候…</span>
+          </div>
+        </div>
+        <div class="history" id="history" hidden>
+          <h3>历史查询 <small style="font-weight: normal; color: #4b5874;">（最近 5 条）</small></h3>
+          <ul id="history-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>© <span id="current-year"></span> 无线电爱好者协会 · 保留所有权利。</p>
+  </footer>
+  <script>
+    const summaryEl = document.getElementById('summary');
+    const totalEl = document.getElementById('total-admitted');
+    const updatedEl = document.getElementById('last-updated');
+    const form = document.getElementById('lookup-form');
+    const studentIdInput = document.getElementById('student-id');
+    const messageBox = document.getElementById('status-message');
+    const historySection = document.getElementById('history');
+    const historyList = document.getElementById('history-list');
+
+    const admissionsMap = new Map();
+    const history = [];
+
+    function formatDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function showMessage(type, title, detail) {
+      messageBox.className = `message ${type} show`;
+      messageBox.innerHTML = `
+        <div class="icon" aria-hidden="true">${type === 'success' ? '🎉' : type === 'error' ? '⚠️' : 'ℹ️'}</div>
+        <div>
+          <strong>${title}</strong>
+          <span>${detail}</span>
+        </div>
+      `;
+    }
+
+    function updateHistory(id, info) {
+      history.unshift({ id, info, at: new Date() });
+      if (history.length > 5) history.length = 5;
+      historyList.innerHTML = history.map(item => `
+        <li>
+          <span class="name">${item.info.name || '匿名同学'}</span>
+          <span>${item.id}</span>
+        </li>
+      `).join('');
+      historySection.hidden = history.length === 0;
+    }
+
+    function normalizeId(raw) {
+      return raw.replace(/[^0-9]/g, '').trim();
+    }
+
+    async function loadAdmissions() {
+      try {
+        const response = await fetch('data/admissions.json', { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`数据加载失败：${response.status}`);
+        }
+        const data = await response.json();
+        data.forEach(item => {
+          const id = String(item.studentId).trim();
+          if (!admissionsMap.has(id)) {
+            admissionsMap.set(id, {
+              name: item.name?.trim() || '',
+              raw: item
+            });
+          }
+        });
+        totalEl.textContent = admissionsMap.size;
+        const today = new Date();
+        updatedEl.textContent = formatDate(today);
+        showMessage('info', '名单已加载', '请输入学号，点击查询按钮查看录取结果。');
+      } catch (error) {
+        console.error(error);
+        showMessage('error', '加载失败', '暂时无法获取录取名单，请稍后再试或联系协会。');
+        totalEl.textContent = '--';
+        updatedEl.textContent = '--';
+      }
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const rawId = studentIdInput.value;
+      const normalized = normalizeId(rawId);
+
+      if (!normalized) {
+        showMessage('error', '学号不能为空', '请填写你的学号后再次尝试。');
+        studentIdInput.focus();
+        return;
+      }
+
+      if (!/^[0-9]{6,}$/.test(normalized)) {
+        showMessage('error', '学号格式不正确', '请确认学号为数字，且长度不少于 6 位。');
+        studentIdInput.focus();
+        return;
+      }
+
+      if (admissionsMap.size === 0) {
+        showMessage('error', '名单尚未就绪', '录取名单尚未加载完成，请稍候再试。');
+        return;
+      }
+
+      studentIdInput.value = normalized;
+
+      const admission = admissionsMap.get(normalized);
+      if (admission) {
+        const name = admission.name || '录取同学';
+        showMessage('success', '恭喜录取成功！', `${name}，你的学号 ${normalized} 已确认录取。请关注协会通知安排后续事项。`);
+        updateHistory(normalized, admission);
+      } else {
+        showMessage('error', '很遗憾未查询到', `学号 ${normalized} 暂未出现在录取名单中。如有疑问，请联系协会负责人核实。`);
+      }
+    });
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    loadAdmissions();
+  </script>
+</body>
+
+</html>
