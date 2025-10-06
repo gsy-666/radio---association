@@ -550,6 +550,56 @@
       transform: scaleX(1);
     }
 
+    /* 全屏黑屏提示层 */
+    #grade-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 2rem;
+    }
+
+    #grade-overlay[hidden] {
+      display: none;
+    }
+
+    #grade-overlay .overlay-text {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* 全屏黑屏提示层 */
+    #grade-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 2rem;
+    }
+
+    #grade-overlay[hidden] {
+      display: none;
+    }
+
+    #grade-overlay .overlay-text {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
     /* 响应式调整 */
     @media (max-width: 640px) {
       header h1 {
@@ -631,8 +681,7 @@
             <label for="student-id">学号</label>
             <div class="input-group">
               <input id="student-id" name="student-id" type="text" inputmode="numeric" pattern="[0-9]{12}"
-                minlength="12" maxlength="12" placeholder="请输入学号，例如 202511040394" aria-required="true"
-                title="请输入12位数字学号" required />
+                minlength="12" maxlength="12" placeholder="请输入学号" aria-required="true" title="请输入12位数字学号" required />
               <button type="submit" aria-label="查询录取结果">
                 <span>查询</span>
                 <span aria-hidden="true">→</span>
@@ -657,6 +706,10 @@
   <footer>
     <p>© <span id="current-year"></span> 无线电爱好者协会 · 保留所有权利。</p>
   </footer>
+  <!-- 年级前缀识别黑屏层 -->
+  <div id="grade-overlay" hidden>
+    <div class="overlay-text"></div>
+  </div>
   <script>
     const summaryEl = document.getElementById('summary');
     const totalEl = document.getElementById('total-admitted');
@@ -666,6 +719,8 @@
     const messageBox = document.getElementById('status-message');
     const historySection = document.getElementById('history');
     const historyList = document.getElementById('history-list');
+    const gradeOverlay = document.getElementById('grade-overlay');
+    const gradeOverlayText = gradeOverlay.querySelector('.overlay-text');
 
     const admissionsMap = new Map();
     const history = [];
@@ -705,6 +760,28 @@
       if (typeof raw !== 'string') return '';
       const withoutSpaces = raw.replace(/\s+/g, '');
       return withoutSpaces.replace(/[^0-9]/g, '');
+    }
+
+    // 从学号提取用于判断的两位“年前缀”：若以 20 开头，则取第3-4位（如 2025 -> 25）；否则取前两位。
+    function getYearPrefix2(id) {
+      if (!id || id.length < 2) return NaN;
+      try {
+        let two;
+        if (id.startsWith('20') && id.length >= 4) {
+          two = id.slice(2, 4);
+        } else {
+          two = id.slice(0, 2);
+        }
+        return Number.parseInt(two, 10);
+      } catch (_) {
+        return NaN;
+      }
+    }
+
+    function showGradeOverlay(text) {
+      gradeOverlayText.textContent = text;
+      gradeOverlay.hidden = false;
+      document.body.style.overflow = 'hidden';
     }
 
     async function loadAdmissions() {
@@ -750,6 +827,19 @@
         showMessage('error', '学号格式不正确', '请确认学号为12位数字。');
         studentIdInput.focus();
         return;
+      }
+
+      // 年级前缀黑屏提示：<=23 显示“老登干什么呢”；>=26 显示“有点意思”（24/25 不拦截）
+      const yp = getYearPrefix2(normalized);
+      if (!Number.isNaN(yp)) {
+        if (yp <= 23) {
+          showGradeOverlay('老登干什么呢');
+          return;
+        }
+        if (yp >= 26) {
+          showGradeOverlay('有点意思');
+          return;
+        }
       }
 
       if (admissionsMap.size === 0) {
