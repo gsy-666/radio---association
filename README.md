@@ -139,7 +139,7 @@ cd radio---association-master
 ### 2. 安装依赖
 
 ```bash
-npm install
+bun install
 ```
 
 ### 3. 配置环境变量
@@ -164,10 +164,10 @@ node server/initDB.js
 
 ```bash
 # 开发模式（热重载）
-npm run dev
+bun run dev
 
 # 生产模式
-npm start
+bun start
 ```
 
 服务默认运行在 `http://localhost:5000`
@@ -175,7 +175,7 @@ npm start
 ### 6. 导出录取名单（可选）
 
 ```bash
-npm run export:admissions
+bun run export:admissions
 ```
 
 该命令读取 `工作簿1.xlsx` 中的录取数据，生成 `public/data/admissions.json` 供前端录取查询使用。

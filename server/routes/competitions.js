@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Department = require('../models/Department');
+const Competition = require('../models/Competition');
 
-// 获取所有部门
+// 获取所有竞赛
 router.get('/', async (req, res) => {
   try {
-    const departments = await Department.find();
-    res.json(departments);
+    const competitions = Competition.findAll();
+    res.json(competitions);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

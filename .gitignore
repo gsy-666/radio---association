@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+server/data/
+public/data/admissions.json
+工作簿1.xlsx
+~$*.xlsx
+AGENTS.md

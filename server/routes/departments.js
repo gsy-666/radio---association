@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const Association = require('../models/Association');
+const Department = require('../models/Department');
 
-// 获取协会基本信息
+// 获取所有部门
 router.get('/', async (req, res) => {
   try {
-    const association = await Association.findOne();
-    res.json(association);
+    const departments = Department.findAll();
+    res.json(departments);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
